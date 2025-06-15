@@ -20,11 +20,11 @@ func StartMySQL() *sql.DB {
 }
 
 func createExchangeTable(db *sql.DB) {
-	result, err := db.Exec("CREATE TABLE IF NOT EXISTS exchanges (id INT AUTO_INCREMENT PRIMARY KEY, bid DECIMAL(10, 2), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+	result, err := db.Exec("CREATE TABLE IF NOT EXISTS exchanges (id INT AUTO_INCREMENT PRIMARY KEY, bid DECIMAL(10, 4), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);")
 	if err != nil {
 		panic(err)
 	}
 	log.Println(result)
 
-	log.Println("Exchange table created")
+	log.Println("exchanges table created")
 }

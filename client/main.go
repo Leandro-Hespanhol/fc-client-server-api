@@ -18,7 +18,7 @@ type Exchange struct {
 func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
-	req, err := http.NewRequestWithContext(ctx, "GET", "http://localhost:8080/exchange", nil)
+	req, err := http.NewRequestWithContext(ctx, "GET", "http://localhost:8080/cotacao", nil)
 	if err != nil {
 		panic(err)
 	}
@@ -46,11 +46,12 @@ func registerExchange(exchangeBid string) {
 	defer db.Close()
 
 	exchange := NewExchange(exchangeBid)
-	result, err := db.Exec("INSERT INTO exchange (bid) VALUES (?)", exchange.Bid)
+	result, err := db.Exec("INSERT INTO exchanges (bid) VALUES (?)", exchange.Bid)
 	if err != nil {
 		panic(err)
 	}
 
-	log.Println(result)
-	log.Println("Exchange registered successfully")
+	id, _ := result.LastInsertId()
+
+	log.Printf("Exchange registered successfully, ID: %d", id)
 }
