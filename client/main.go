@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"modulo-1-go/db"
@@ -30,6 +31,7 @@ func main() {
 	var exchangeBid string
 	json.NewDecoder(res.Body).Decode(&exchangeBid)
 	registerExchange(exchangeBid)
+	createFile(exchangeBid)
 
 	defer res.Body.Close()
 	io.Copy(os.Stdout, res.Body)
@@ -54,4 +56,12 @@ func registerExchange(exchangeBid string) {
 	id, _ := result.LastInsertId()
 
 	log.Printf("Exchange registered successfully, ID: %d", id)
+}
+
+func createFile(bid string) {
+	content := fmt.Sprintf("Dólar: %s", bid)
+	err := os.WriteFile("cotacao.txt" , []byte(content), 0666)
+	if err != nil {
+		log.Print("Faild to create a file with the bid value")
+	}
 }
