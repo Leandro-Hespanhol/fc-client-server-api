@@ -1,9 +1,8 @@
-package db
+package sqlDB
 
 import (
 	"database/sql"
 	"fmt"
-	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -20,11 +19,8 @@ func StartMySQL() *sql.DB {
 }
 
 func createExchangeTable(db *sql.DB) {
-	result, err := db.Exec("CREATE TABLE IF NOT EXISTS exchanges (id INT AUTO_INCREMENT PRIMARY KEY, bid DECIMAL(10, 4), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);")
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS exchanges (id INT AUTO_INCREMENT PRIMARY KEY, bid DECIMAL(10, 4), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);")
 	if err != nil {
 		panic(err)
 	}
-	log.Println(result)
-
-	log.Println("exchanges table created")
 }
